@@ -8,11 +8,12 @@ var watchify = require('watchify');
 var babel = require('babelify');
 
 var cssFiles = "src/**/*.css";
+var htmlFiles = "src/**/*.html"
 
 var interceptErrors = function (err) { console.error(err); this.emit('end'); };
 
 gulp.task('html', function () {
-    return gulp.src("src/index.html")
+    return gulp.src(htmlFiles)
         .on('error', interceptErrors)
         .pipe(gulp.dest('./build/'));
 });
@@ -24,7 +25,7 @@ gulp.task('css', function () {
 });
 
 function compile(watch) {
-    var bundler = watchify(browserify('./src/main.js', { debug: true }).transform(babel, { presets: ['@babel/preset-env'] }));
+    var bundler = watchify(browserify('./src/main.js', { debug: true }).transform(babel, { presets: ['@babel/preset-env'], "plugins": ['@babel/transform-runtime'] }));
 
     function rebundle() {
         bundler.bundle()

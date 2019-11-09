@@ -1,24 +1,16 @@
-import webmidi from "webmidi";
-
-
+import { Synth } from 'tone';
 
 class Piano {
     constructor() {
-        webmidi.enable(function (err) {
-            if (!err) {
-                console.log('WebMidi enabled');
-            }
-        });
-
-        this.webmidi = webmidi;
-
-        this.output = webmidi.outputs[0];
+        this.synth = new Synth().toMaster();
+        console.log(this.synth);
     }
 
-    noteTest() {
-        this.output.playNote('C3');
+    play(value) {
+        // this.synth.triggerAttackRelease("C4", "8n");
+        this.synth.triggerAttackRelease("F1", "8n");
+
     }
 }
-
 
 export let piano = new Piano();

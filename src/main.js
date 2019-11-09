@@ -1,4 +1,1 @@
-import { piano } from "./classes/piano.class";
-
-
-var test = piano;
+import "./classes/controller";
