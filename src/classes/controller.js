@@ -4,10 +4,7 @@ import $ from '../js/$';
 class Controller {
     constructor() {
 
-        this.piano = piano;
-        this.fileReader = new FileReader();
-
-        // Set listener for each key
+        // Eventos para las teclas en pantalla
         $('btn-0').addEventListener('click', () => { this.pressed(0) });
         $('btn-1').addEventListener('click', () => { this.pressed(1) });
         $('btn-2').addEventListener('click', () => { this.pressed(2) });
@@ -17,7 +14,7 @@ class Controller {
         $('btn-6').addEventListener('click', () => { this.pressed(6) });
         $('btn-7').addEventListener('click', () => { this.pressed(7) });
 
-        // Set listener for keyboard keys
+        // Evento para la entrada de tecladp
         document.addEventListener('keydown', (e) => {
             let code = e.code;
             switch (code) {
@@ -54,38 +51,37 @@ class Controller {
                     this.pressed(7);
                     break;
 
-                case "Space":
+                case "Space": // Iniciar grabación
                     this.startRecord();
                     break;
-                case "ControlLeft":
+                case "ControlLeft": // Detener grabación
                 case "ControlRight":
                     this.stopRecord();
                     break;
-                case "KeyZ":
+                case "KeyZ": // Reproducir grabación
                     piano.playRecord();
                     break;
             }
         });
 
-        // Set listener for start / stop record
+        // Acciones al pulsar botones de start o stop record
         $('start-record').addEventListener('click', () => { this.startRecord() });
         $('stop-record').addEventListener('click', () => { this.stopRecord() });
 
-        // Listener for play and remove record
+        // Botones de reproducir y eliminar grabación
         $('play-record').addEventListener('click', () => { piano.playRecord() });
         $('remove-record').addEventListener('click', () => { piano.removeRecord() });
 
-        // Listener for save file button
+        // Bóton de guardar a fichero
         $('save-file').addEventListener('click', () => { piano.saveToFile() });
 
-        // Listener for input file
+        // Evento al cargar un fichero
         $('file-input').addEventListener('change', (e) => { this.readFile(e) })
 
-        // Comprobar si se hay una grabación guardada
+        // Comprobar si hay una grabación guardada
         var record = localStorage.getItem('record');
         if (record) {
-            $('play-record').removeAttribute('hidden');
-            $('remove-record').removeAttribute('hidden');
+            this.showActionButtons(true);
             piano.record = JSON.parse(record);
         }
 
@@ -93,7 +89,7 @@ class Controller {
 
     // Acción al pulsar una tecla
     pressed(value) {
-        this.piano.play(value);
+        piano.play(value);
     }
 
     // Animación de pulsación
@@ -104,18 +100,38 @@ class Controller {
         }, 500);
     }
 
+    // Iniciar grabación
     startRecord() {
         $('start-record').setAttribute('hidden', true);
         $('stop-record').removeAttribute('hidden');
         piano.startRecord();
     }
 
+    // Parar grabación
     stopRecord() {
         $('start-record').removeAttribute('hidden');
         $('stop-record').setAttribute('hidden', true);
         piano.stopRecord();
     }
 
+    showActionButtons(b) {
+        if(b) {
+            $('play-record').removeAttribute('hidden');
+            $('remove-record').removeAttribute('hidden');
+            $('save-file').removeAttribute('hidden');
+        } else {
+            $('play-record').setAttribute('hidden', true);
+            $('remove-record').setAttribute('hidden', true);
+            $('save-file').setAttribute('hidden', true);
+        }
+    }
+
+    /**
+     * Función para generar un fichero a partir del texto
+     * @param {String} content Texto que tendrá el contenido descargado
+     * @param {String} fileName Nombre del fichero
+     * @param {String} contentType Tipo de fichero
+     */
     download(content, fileName, contentType) {
         var a = document.createElement("a");
         var file = new Blob([content], { type: contentType });
@@ -124,6 +140,7 @@ class Controller {
         a.click();
     }
 
+    // Evento al cargar un fichero
     readFile(e) {
         var files = e.target.files;
 
@@ -131,7 +148,8 @@ class Controller {
         reader.onload = (function (reader) {
             return function () {
                 var contents = reader.result;
-                piano.loadFromFile(contents);
+                // Cargar contenido del fichero 
+                piano.loadFromString(contents);
                 $('input-form').reset();
             }
         })(reader);

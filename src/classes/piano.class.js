@@ -1,5 +1,4 @@
 import { Synth } from 'tone';
-import $ from '../js/$';
 import { controller } from './controller';
 
 class Piano {
@@ -10,10 +9,11 @@ class Piano {
         this.record = new Array();
     }
 
+    // Reproducir una nota
     play(value) {
-        if (this.recording) {
-            let diff = new Date() - this.startTime;
-            this.record.push({ value, diff });
+        if (this.recording) { // Guardar si está grabando
+            let time = new Date() - this.startTime; // Calcular tiempo desde que inició la grabación 
+            this.record.push({ value, time });
         }
 
         switch (value) {
@@ -47,37 +47,39 @@ class Piano {
 
     // Inicio de grabación
     startRecord() {
-        this.recording = true;
-        this.startTime = new Date();
-        this.record = new Array();
+        if (!this.recording) {
+            this.recording = true;
+            this.startTime = new Date();
+            this.record = new Array();
+        }
     }
 
     // Parada de grabación
     stopRecord() {
         this.recording = false;
-        if(this.record.length >  0) {
+        // Si ha habido alguna pulsación se guarda en localStorage 
+        // y se muestran los botones play / remove / save
+        if (this.record.length > 0) {
             localStorage.setItem('record', JSON.stringify(this.record));
-            
-            $('play-record').removeAttribute('hidden');
-            $('remove-record').removeAttribute('hidden');
+            controller.showActionButtons(true);
         } else {
-            $('play-record').setAttribute('hidden', true);
-            $('remove-record').setAttribute('hidden', true);
+            // Se ocultan los botones
+            controller.showActionButtons(false);
         }
     }
 
     // Eliminar grabación
     removeRecord() {
+        this.record = new Array();
         localStorage.removeItem('record');
-        $('play-record').setAttribute('hidden', true);
-        $('remove-record').setAttribute('hidden', true);
+        controller.showActionButtons(false);
     }
 
     // Reproducir grabación
     playRecord() {
         // Parar grabación si está grabando
-        if(this.recording) {
-            this.stopRecord();
+        if (this.recording) {
+            controller.stopRecord();
         }
 
         // Reproducir cada nota
@@ -85,20 +87,25 @@ class Piano {
             setTimeout(() => {
                 controller.animate(note.value);
                 this.play(note.value);
-            }, note.diff);
+            }, note.time);
         });
     }
 
+    // Guardar grabación a un fichero de texto
     saveToFile() {
         var jsonData = JSON.stringify(this.record);
-        controller.download(jsonData, 'play.txt', 'text/plain');
+        controller.download(jsonData, 'play.json', 'text/plain');
     }
 
-    loadFromFile(value) {
-        if(value) {
+    /**
+     * Cargar grabación desde un texto
+     * @param {String} value Texto para cargar
+     */
+    loadFromString(value) {
+        if (value) {
             this.record = JSON.parse(value);
             this.stopRecord();
-        } 
+        }
     }
 }
 
