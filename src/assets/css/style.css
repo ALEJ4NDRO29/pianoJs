@@ -59,3 +59,11 @@ ul .white.active {
 .center {
     text-align: center;
 }
+
+#start-record {
+    color: green;
+}
+
+#stop-record {
+    color: red;
+}

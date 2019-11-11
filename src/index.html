@@ -23,8 +23,17 @@
     </ul>
 
     <div class="center">
-
-        <button>rec</button>
+        <button id="start-record">Start record [space]</button>
+        <button id="stop-record" hidden>Stop record [ctrl]</button>
+    </div>
+    
+    <div class="center">
+        <button id="play-record" hidden>Play record [z]</button>
+        <button id="remove-record" hidden>Remove record</button>
+        <button id="save-file">Save to file</button>
+        <form id="input-form">
+            <input id="file-input" type="file" value="Load from file">
+        </form>
     </div>
 
     <script src="main.js"></script>
