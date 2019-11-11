@@ -15,13 +15,13 @@ var interceptErrors = function (err) { console.error(err); this.emit('end'); };
 gulp.task('html', function () {
     return gulp.src(htmlFiles)
         .on('error', interceptErrors)
-        .pipe(gulp.dest('./build/'));
+        .pipe(gulp.dest('./docs/'));
 });
 
 gulp.task('css', function () {
     return gulp.src(cssFiles)
         .on('error', interceptErrors)
-        .pipe(gulp.dest('./build/'));
+        .pipe(gulp.dest('./docs/'));
 });
 
 function compile(watch) {
@@ -34,7 +34,7 @@ function compile(watch) {
             .pipe(buffer())
             //   .pipe(sourcemaps.init({ loadMaps: true }))
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('./build'));
+            .pipe(gulp.dest('./docs'));
     }
 
     if (watch) {
@@ -53,7 +53,7 @@ function watch() {
 gulp.task('deploy', function () {
     browserSync.init({
         port: 7000,
-        server: "./build",
+        server: "./docs",
         ui: false,
         open: false
     });

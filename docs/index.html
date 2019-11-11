@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Piano MIDI</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <ul class="set">
+        <li id="btn-0" class="white"><span class="key">A</span></li>
+        <li id="btn-1" class="white"><span class="key">S</span></li>
+        <li id="btn-2" class="white"><span class="key">D</span></li>
+        <li id="btn-3" class="white"><span class="key">F</span></li>
+        <li id="btn-4" class="white"><span class="key">J</span></li>
+        <li id="btn-5" class="white"><span class="key">K</span></li>
+        <li id="btn-6" class="white"><span class="key">L</span></li>
+        <li id="btn-7" class="white"><span class="key">Ñ</span></li>
+    </ul>
+
+    <div class="center">
+        <button id="start-record">Start record [space]</button>
+        <button id="stop-record" hidden>Stop record [ctrl]</button>
+    </div>
+    
+    <div class="center">
+        <button id="play-record" hidden>Play record [z]</button>
+        <button id="remove-record" hidden>Remove record</button>
+        <button id="save-file">Save to file</button>
+        <form id="input-form">
+            <input id="file-input" type="file" value="Load from file">
+        </form>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
