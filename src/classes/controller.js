@@ -85,6 +85,21 @@ class Controller {
             piano.record = JSON.parse(record);
         }
 
+        // Comprobar si habia una nota guardada
+        var note = localStorage.getItem('note');
+        if(note) {
+            piano.note = parseInt(note);
+            $('note').value = note;
+        } else {
+            note = 2;
+            localStorage.setItem('note', note);
+            piano.note = note;
+            $('note').value = note;
+        }
+
+        $('note').addEventListener('change', () => {this.setNote()})
+        $('note').addEventListener('focus', () => document.activeElement.blur());
+
     }
 
     // Acción al pulsar una tecla
@@ -114,6 +129,7 @@ class Controller {
         piano.stopRecord();
     }
 
+    // Ocultar o mostrar botones en pantalla
     showActionButtons(b) {
         if(b) {
             $('play-record').removeAttribute('hidden');
@@ -155,6 +171,12 @@ class Controller {
         })(reader);
 
         reader.readAsText(files[0]);
+    }
+
+    setNote() {
+        var note = parseInt($('note').value);
+        localStorage.setItem('note', note);
+        piano.note = note;
     }
 }
 

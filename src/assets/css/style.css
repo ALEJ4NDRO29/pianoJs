@@ -5,7 +5,7 @@
 }
 
 .set {
-    height: 18.875em;
+    height: 18em;
     width: 38em;
     margin: 5em auto;
     padding: 3em 0 0 3em;
@@ -66,4 +66,11 @@ ul .white.active {
 
 #stop-record {
     color: red;
+}
+
+.counter {
+    position: absolute;
+    display: inline;
+    top: 0px;
+    left: 105%;
 }

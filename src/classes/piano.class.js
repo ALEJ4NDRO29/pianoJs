@@ -7,6 +7,8 @@ class Piano {
         this.recording = false;
         this.startTime = null;
         this.record = new Array();
+
+        this.note = 2;
     }
 
     // Reproducir una nota
@@ -18,28 +20,28 @@ class Piano {
 
         switch (value) {
             case 0:
-                this.synth.triggerAttackRelease("C3", "8n");
+                this.synth.triggerAttackRelease(`C${this.note}`, "8n");
                 break;
             case 1:
-                this.synth.triggerAttackRelease("D3", "8n");
+                this.synth.triggerAttackRelease(`D${this.note}`, "8n");
                 break;
             case 2:
-                this.synth.triggerAttackRelease("E3", "8n");
+                this.synth.triggerAttackRelease(`E${this.note}`, "8n");
                 break;
             case 3:
-                this.synth.triggerAttackRelease("F3", "8n");
+                this.synth.triggerAttackRelease(`F${this.note}`, "8n");
                 break;
             case 4:
-                this.synth.triggerAttackRelease("G3", "8n");
+                this.synth.triggerAttackRelease(`G${this.note}`, "8n");
                 break;
             case 5:
-                this.synth.triggerAttackRelease("A3", "8n");
+                this.synth.triggerAttackRelease(`A${this.note}`, "8n");
                 break;
             case 6:
-                this.synth.triggerAttackRelease("B3", "8n");
+                this.synth.triggerAttackRelease(`B${this.note}`, "8n");
                 break;
             case 7:
-                this.synth.triggerAttackRelease("C4", "8n");
+                this.synth.triggerAttackRelease(`C${this.note+1}`, "8n");
                 break;
 
         }
